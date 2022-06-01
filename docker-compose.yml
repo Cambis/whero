@@ -1,0 +1,35 @@
+version: '3.6'
+
+services:
+  web:
+    depends_on:
+      - graphql
+    build:
+      context: .
+      dockerfile: ./docker/tukutuku/Dockerfile
+      target: dev
+    image: cambis/whero/web:node16.15.0
+    volumes:
+      - .:/app
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 3000:3000
+      - 8888:8888
+
+  graphql:
+    build:
+      context: .
+      dockerfile: ./docker/tukutuku/Dockerfile
+      target: graphql
+    image: cambis/whero/graphql:node16.15.0
+    volumes:
+      - .:/app
+
+  # mailcatcher:
+  #   build: ./docker/kaihopu
+  #   image: cambis/mailcatcher:0.6.5
+  #   ports:
+  #     - 1025:1025
+  #     - 1080:1080
+      

@@ -1,0 +1,25 @@
+name: Merge production into main 🔀
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - deploy-production
+jobs:
+  merge-into-main:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Initialize mandatory git config
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Merge release branch into main
+        run: |
+          git fetch --unshallow
+          git checkout main
+          git pull
+          git merge --no-ff deploy-production -m "Auto merge into main"
+          git push origin main

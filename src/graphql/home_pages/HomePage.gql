@@ -1,0 +1,11 @@
+query HomePage {
+  site: _site {
+    favicon: faviconMetaTags {
+      ...metaTags
+    }
+  }
+
+  homePage {
+    ...HomePageFields
+  }
+}

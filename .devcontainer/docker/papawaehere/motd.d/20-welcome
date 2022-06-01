@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "
+👋 Nau mai, haere mai ki te Papawaehere.
+
+👷 Created by Cameron Bryers <www.cameronbryers.dev>
+"

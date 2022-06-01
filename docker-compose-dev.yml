@@ -1,0 +1,14 @@
+version: '3.6'
+
+services:
+  web:
+    volumes:
+      - whero-sync:/app:nocopy
+
+  graphql:
+    volumes:
+      - whero-sync:/app:nocopy
+
+volumes:
+  whero-sync:
+    external: true

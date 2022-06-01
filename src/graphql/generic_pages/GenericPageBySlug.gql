@@ -1,0 +1,11 @@
+query GenericPageBySlug($slug: String!) {
+  site: _site {
+    favicon: faviconMetaTags {
+      ...metaTags
+    }
+  }
+
+  genericPage(filter: { slug: { eq: $slug } }) {
+    ...GenericPageFields
+  }
+}

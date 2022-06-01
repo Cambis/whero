@@ -1,0 +1,5 @@
+query AllGenericPageSlugs {
+  allGenericPages {
+    slug
+  }
+}

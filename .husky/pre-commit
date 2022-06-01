@@ -1,0 +1,99 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Find all changed files for this commit
+# Compute the diff only once to save a small amount of time.
+CHANGED_FILES=$(git diff --name-only --cached --diff-filter=ACMR)
+
+# Initialise exit code
+RC=0
+
+# Get only changed files that match our file suffix pattern
+get_pattern_files() {
+  pattern=$(echo "$*" | sed "s/ /\$\\\|/g")
+  echo "$CHANGED_FILES" | { grep -E "$pattern$" || RC="$?"; }
+}
+
+docker_run() {
+  if [ -z `docker-compose ps -q web` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q web)` ]; then
+    docker-compose run --rm --entrypoint="" --no-deps web $*
+  else
+    docker-compose exec -T web $*
+  fi
+}
+
+# Get all changed typescript files
+TS_FILES=$(get_pattern_files "**/*.(ts|tsx)")
+
+if [ -n "$TS_FILES" ]; then
+  if [ -x "$(command -v docker)" ]; then
+    TS_OUTPUT=$(docker_run yarn eslint --fix $TS_FILES) || RC="$?"
+  else
+    TS_OUTPUT=$(yarn eslint --fix $TS_FILES) || RC="$?"
+  fi
+
+  if [ "$RC" -eq 0 ]; then
+    echo "${TS_OUTPUT}"
+    git add $TS_FILES
+  else
+    echo "${TS_OUTPUT}"
+    exit $RC
+  fi
+fi
+
+# Get all changed CSS files
+CSS_FILES=$(get_pattern_files "**/*.(css|scss)")
+
+if [ -n "$CSS_FILES" ]; then
+  if [ -x "$(command -v docker)" ]; then
+    CSS_OUTPUT=$(docker_run yarn stylelint --fix $CSS_FILES) || RC="$?"
+  else
+    CSS_OUTPUT=$(yarn stylelint --fix $CSS_FILES) || RC="$?"
+  fi
+
+  if [ "$RC" -eq 0 ]; then
+    echo "${CSS_OUTPUT}"
+    git add $CSS_FILES
+  else
+    echo "${CSS_OUTPUT}"
+    exit $RC
+  fi
+fi
+
+# Get all changed GraphQL files
+GQL_FILES=$(get_pattern_files "**/*.gql")
+
+if [ -n "$GQL_FILES" ]; then
+  if [ -x "$(command -v docker)" ]; then
+    GQL_OUTPUT=$(docker_run yarn prettier --parser graphql --print-width 100 --write $GQL_FILES) || RC="$?"
+  else
+    GQL_OUTPUT=$(yarn prettier --parser graphql --print-width 100 --write $GQL_FILES) || RC="$?"
+  fi
+
+  if [ "$RC" -eq 0 ]; then
+    echo "${GQL_OUTPUT}"
+    git add $GQL_FILES
+  else
+    echo "${GQL_OUTPUT}"
+    exit $RC
+  fi
+fi
+
+# Get all changed JS files
+JS_FILES=$(get_pattern_files "**/*.js")
+
+if [ -n "$JS_FILES" ]; then
+  if [ -x "$(command -v docker)" ]; then
+    JS_OUTPUT=$(docker_run yarn prettier --parser espree --print-width 100 --write $JS_FILES) || RC="$?"
+  else
+    JS_OUTPUT=$(yarn prettier --parser espree --print-width 100 --write $JS_FILES) || RC="$?"
+  fi
+
+  if [ "$RC" -eq 0 ]; then
+    echo "${JS_OUTPUT}"
+    git add $JS_FILES
+  else
+    echo "${JS_OUTPUT}"
+    exit $RC
+  fi
+fi

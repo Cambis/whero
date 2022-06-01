@@ -1,0 +1,11 @@
+fragment GenericPageFields on GenericPageRecord {
+  id
+  title
+  content {
+    value
+  }
+  slug
+  seo: _seoMetaTags {
+    ...metaTags
+  }
+}

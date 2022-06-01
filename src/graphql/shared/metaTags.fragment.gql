@@ -1,0 +1,5 @@
+fragment metaTags on Tag {
+  attributes
+  content
+  tag
+}

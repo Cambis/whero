@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+docker_run() {
+  if [ -z `docker-compose ps -q web` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q web)` ]; then
+    docker-compose run --rm --entrypoint="" --no-deps web $*
+  else
+    docker-compose exec -T web $*
+  fi
+}
+
+if [ -x "$(command -v docker)" ]; then
+  docker_run yarn build
+else
+  yarn build
+fi

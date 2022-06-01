@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "👋 Kia ora ${GITHUB_USER}! Welcome to ${GITHUB_REPOSITORY}.
+
+🔧 Default configuration files have already been created for you. No extra configuration
+is required.
+
+🏃 To get started right away, run the "docker-compose up" command.
+
+🐳 You may find the following commands useful:
+  - docker-compose up # Run the project
+  - docker-compose down # Stop all runnning containers
+  - docker-compose exec <CONTAINER> <COMMAND> # Run a command in a running container
+  - docker-compose run --rm <CONTAINER> <COMMAND> # Run a command in a temporary container
+
+📓 For further information, please consult the project README file.
+"
