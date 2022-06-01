@@ -121,11 +121,9 @@ const ContactForm = (): JSX.Element => {
           <Container>
             {!!formStatus && formStatus.type && (
               <div
-                className={cn(
-                  'Alert',
-                  { 'Alert--success': formStatus.type === 'success' },
-                  { 'Alert--error': formStatus.type === 'error' },
-                )}
+                className={cn('p-4 text-left text-2xl', {
+                  'border-red-500 text-red-600': formStatus.type === 'error',
+                })}
               >
                 {formStatus.message}
               </div>
@@ -134,11 +132,11 @@ const ContactForm = (): JSX.Element => {
               <form
                 name="contact"
                 onSubmit={handleSubmit}
-                className="Grid u-flex u-flexWrap u-flexAlignItemsStretch"
+                className="flex flex-wrap justify-between text-left"
               >
                 {/* ====== ROBOTS ====== */}
-                <label htmlFor="contact-honeyPot" className="u-hiddenVisually" hidden>
-                  Don’t fill this out if you’re human:
+                <label htmlFor="contact-honeyPot" className="hidden" hidden>
+                  Don&apos;t fill this out if you&apos;re human:
                   <input
                     id="contact-honeyPot"
                     type="text"
@@ -150,19 +148,18 @@ const ContactForm = (): JSX.Element => {
                 </label>
 
                 {/* ====== FIRST NAME ====== */}
-                <fieldset className="Grid-cell u-md-width1of2">
-                  <label
-                    htmlFor="contact-firstName"
-                    className={cn('Input', {
-                      'has-error': errors.firstName && touched.firstName && errors.firstName,
-                    })}
-                  >
-                    <span className="Input-label is-required">
+                <fieldset className="mb-4 w-full px-4 lg:w-1/2">
+                  <label htmlFor="contact-firstName">
+                    <span className="block w-full">
                       First name
                       <sup>*</sup>
                     </span>
                     <input
                       id="contact-firstName"
+                      className={cn('form-input w-full rounded-lg px-4 py-3', {
+                        'border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500':
+                          errors.firstName && touched.firstName && errors.firstName,
+                      })}
                       type="text"
                       name="firstName"
                       placeholder="First name"
@@ -172,25 +169,24 @@ const ContactForm = (): JSX.Element => {
                     />
                   </label>
 
-                  <div className="Input-note">
+                  <div className="text-red-600">
                     {errors.firstName && touched.firstName && errors.firstName}
                   </div>
                 </fieldset>
 
                 {/* ====== LAST NAME ====== */}
-                <fieldset className="Grid-cell u-md-width1of2">
-                  <label
-                    htmlFor="contact-lastName"
-                    className={cn('Input', {
-                      'has-error': errors.lastName && touched.lastName && errors.lastName,
-                    })}
-                  >
-                    <span className="Input-label is-required">
+                <fieldset className="mb-4 w-full px-4 lg:w-1/2">
+                  <label htmlFor="contact-lastName">
+                    <span className="block w-full">
                       Last name
                       <sup>*</sup>
                     </span>
                     <input
                       id="contact-lastName"
+                      className={cn('form-input w-full rounded-lg px-4 py-3', {
+                        'border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500':
+                          errors.lastName && touched.lastName && errors.lastName,
+                      })}
                       type="text"
                       name="lastName"
                       placeholder="Last name"
@@ -200,25 +196,24 @@ const ContactForm = (): JSX.Element => {
                     />
                   </label>
 
-                  <div className="Input-note">
+                  <div className="text-red-600">
                     {errors.lastName && touched.lastName && errors.lastName}
                   </div>
                 </fieldset>
 
                 {/* ====== EMAIL ====== */}
-                <fieldset className="Grid-cell">
-                  <label
-                    htmlFor="contact-email"
-                    className={cn('Input', {
-                      'has-error': errors.email && touched.email && errors.email,
-                    })}
-                  >
-                    <span className="Input-label is-required">
+                <fieldset className="mb-4 w-full px-4 lg:w-1/2">
+                  <label htmlFor="contact-email">
+                    <span className="block w-full">
                       Email
                       <sup>*</sup>
                     </span>
                     <input
                       id="contact-email"
+                      className={cn('form-input w-full rounded-lg px-4 py-3', {
+                        'border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500':
+                          errors.email && touched.email && errors.email,
+                      })}
                       type="email"
                       name="email"
                       placeholder="Email"
@@ -228,20 +223,21 @@ const ContactForm = (): JSX.Element => {
                     />
                   </label>
 
-                  <div className="Input-note">{errors.email && touched.email && errors.email}</div>
+                  <div className="text-red-500">
+                    {errors.email && touched.email && errors.email}
+                  </div>
                 </fieldset>
 
                 {/* ====== MESSAGE ====== */}
-                <fieldset className="Grid-cell">
-                  <label
-                    htmlFor="contact-message"
-                    className={cn('Textarea', {
-                      'has-error': errors.message && touched.message && errors.message,
-                    })}
-                  >
-                    <span className="Input-label">Message</span>
+                <fieldset className="mb-4 w-full px-4">
+                  <label htmlFor="contact-message">
+                    <span className="block w-full">Message</span>
                     <textarea
                       id="contact-message"
+                      className={cn('form-textarea w-full rounded-lg px-4 py-3', {
+                        'border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500':
+                          errors.message && touched.message && errors.message,
+                      })}
                       name="message"
                       placeholder="Message"
                       onChange={handleChange}
@@ -250,7 +246,7 @@ const ContactForm = (): JSX.Element => {
                     />
                   </label>
 
-                  <div className="Input-note">
+                  <div className="text-red-600">
                     {errors.message && touched.message && errors.message}
                   </div>
                 </fieldset>
@@ -262,19 +258,22 @@ const ContactForm = (): JSX.Element => {
                     size="invisible"
                     sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                   />
-                  <div className="Input-note">
+                  <div className="text-red-600">
                     {errors.recaptcha && touched.recaptcha && errors.recaptcha}
                   </div>
                 </fieldset>
 
                 {/* ====== SUBMIT ====== */}
-                <fieldset className="Grid-cell u-md-width1of2 u-textCenter u-md-textRight">
+                <fieldset className="w-full text-center">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={cn('Button Button--primary Button--large', {
-                      'is-disabled': isSubmitting,
-                    })}
+                    className={cn(
+                      'mr-2 mb-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
+                      {
+                        'disabled:bg-slate-500': isSubmitting,
+                      },
+                    )}
                   >
                     {FORM_COPY.SUBMIT}
                   </button>

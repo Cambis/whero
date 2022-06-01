@@ -13,10 +13,11 @@ const ContactPage: NextPage = () => {
       </Head>
 
       <Container>
-        <h1>Contact</h1>
+        <h1 className="text-6xl font-bold">Contact</h1>
+
+        <p className="mt-3 text-2xl">This is an example page that contains a simple contact form</p>
         <ContactForm />
       </Container>
-
       <Footer />
     </Layout>
   );

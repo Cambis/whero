@@ -13,7 +13,7 @@ const NotFound: NextPage = () => {
       </Head>
 
       <Container>
-        <h1 className="title">Page Not Found</h1>
+        <h1 className="text-6xl font-bold">Page Not Found</h1>
       </Container>
       <Footer />
     </Layout>
