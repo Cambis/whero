@@ -1,6 +1,6 @@
 {
   "name": "whero",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "browserslist": [
     "last 2 major versions"
